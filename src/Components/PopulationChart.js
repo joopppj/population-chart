@@ -11,111 +11,91 @@ import {
     ResponsiveContainer
 } from "recharts";
 
-
+// generate random color
+function randomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var j = 0; j < 6; j += 1) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
-    // data means currenlt selected prefcode 
-    //prefNamesAndIDS is a dictionary for searching prefname 
-    //map : key is prefname, values are data 
-    /*const lines = data.map((value) => (
-        <Line
-            key={value}
-            name={value}
-            type="monotone"
-            dataKey={value}
-        />
-    ));*/
     console.log(map)
     const chartData = [
         {
             name: "1970",
-
         },
         {
             name: "1975",
-
         },
         {
             name: "1980",
-
         },
         {
             name: "1985",
-
         },
         {
             name: "1990",
-
         },
         {
             name: "1995",
-
         },
         {
             name: "2000",
-
         },
         {
             name: "2005",
-
         },
         {
             name: "2010",
-
+        },
+        {
+            name: "2015",
+        },
+        {
+            name: "2020",
         },
     ];
-
-    for (let i = 2; i < 11; i++) {
+    for (let i = 2; i < 13; i++) {
         for (let prefCode of selectedProvince) {
-            console.log(prefCode)
-            console.log(prefNamesAndIds[prefCode - 1].prefName)
-            console.log(map)
-            const temp = prefCode // I even tried using a temp variable to store the number
-            console.log(typeof prefCode)
-            //console.log(parseInt(map.get(prefCode)[0][i].value))
-            console.log(map.get(1))
             chartData[i - 2][`${prefNamesAndIds[prefCode - 1].prefName}`] = parseInt(map.get(parseInt(prefCode))[0][i].value)
         }
     }
-
-    //console.log(map.get(1)[0][0].value)
-    //console.log(chartData)
-
-
-    //const dataForFirst = map.get(prefNamesAndIds[7].prefName)
     return (
         <div className="chart">
-            {selectedProvince.map(pref => { return <span>{pref + prefNamesAndIds[pref - 1].prefName}</span> })}
+            {/*selectedProvince.map(pref => { return <span>{pref + prefNamesAndIds[pref - 1].prefName}</span> })*/}
 
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={500}>
                 <LineChart
                     width={500}
-                    height={300}
+                    height={400}
                     data={chartData}
                     margin={{
-                        top: 5,
+                        top: 3,
                         right: 30,
                         left: 20,
-                        bottom: 5
+                        bottom: 0
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                    <XAxis dataKey="name" label={{ value: '年度', angle: 0, position: 'bottom' }} offset={0} />
+                    <YAxis type="number" label={{ value: '総人口', angle: -90, position: 'left' }} dx={5} />
                     <Tooltip />
-                    <Legend />
+                    <Legend
+                        verticalAlign="top" height={36} />
                     {selectedProvince.map((value) => (
                         <Line
+                            legendType="line"
                             key={value}
-                            name={prefNamesAndIds[value - 1].prefName}
+
                             type="monotone"
                             dataKey={prefNamesAndIds[value - 1].prefName}
+                            stroke={randomColor()}
                         />
                     ))}
 
-
-                    <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="amt" stroke="#82ca9d" />
                 </LineChart>
             </ResponsiveContainer>
         </div>

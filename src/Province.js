@@ -19,7 +19,7 @@ class Province extends Component {
     // fetch data(Japan prefectures names and code) right after the component mounts
     componentDidMount() {
         const pointerToThis = this;
-        const API_key = "W6TGZJSS7pGWkRn5SnkM4ZUZngGIGzJUY9uz0pOA";
+        const API_key = process.env.REACT_APP_API_KEY;;
         let populationDataFunction = [];
         fetch("https://opendata.resas-portal.go.jp/api/v1/prefectures", {
             method: 'GET',
