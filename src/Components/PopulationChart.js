@@ -1,5 +1,5 @@
-import React from 'react';
-import './PopulationChart.css'
+import React from "react";
+import "./PopulationChart.css";
 import {
     LineChart,
     Line,
@@ -8,21 +8,32 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    Label,
+    ResponsiveContainer,
 } from "recharts";
 
-// generate random color
+// generate random dark color for lines
 function randomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var j = 0; j < 6; j += 1) {
-        color += letters[Math.floor(Math.random() * 16)];
+    var lum = -0.25;
+    var hex = String(
+        "#" + Math.random().toString(16).slice(2, 8).toUpperCase()
+    ).replace(/[^0-9a-f]/gi, "");
+    if (hex.length < 6) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
     }
-    return color;
+    var rgb = "#",
+        c,
+        i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i * 2, 2), 16);
+        c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+        rgb += ("00" + c).substr(c.length);
+    }
+    return rgb;
 }
 
 function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
-    console.log(map)
+    //standard data format fir recharts
     const chartData = [
         {
             name: "1970",
@@ -58,15 +69,15 @@ function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
             name: "2020",
         },
     ];
+    // auto fill the chart data
     for (let i = 2; i < 13; i++) {
         for (let prefCode of selectedProvince) {
-            chartData[i - 2][`${prefNamesAndIds[prefCode - 1].prefName}`] = parseInt(map.get(parseInt(prefCode))[0][i].value)
+            chartData[i - 2][`${prefNamesAndIds[prefCode - 1].prefName}`] =
+                parseInt(map.get(parseInt(prefCode))[0][i].value);
         }
     }
     return (
         <div className="chart">
-            {/*selectedProvince.map(pref => { return <span>{pref + prefNamesAndIds[pref - 1].prefName}</span> })*/}
-
             <ResponsiveContainer width="100%" height={500}>
                 <LineChart
                     width={500}
@@ -75,31 +86,40 @@ function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
                     margin={{
                         top: 3,
                         right: 30,
-                        left: 20,
-                        bottom: 0
-                    }}
-                >
+                        left: 30,
+                        bottom: 30,
+                    }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" label={{ value: '年度', angle: 0, position: 'bottom' }} offset={0} />
-                    <YAxis type="number" label={{ value: '総人口', angle: -90, position: 'left' }} dx={5} />
+                    <XAxis dataKey="name">
+                        <Label
+                            value="年度"
+                            offset={-10}
+                            position="insideBottom"
+                        />{" "}
+                    </XAxis>
+                    <YAxis type="number" dx={5}>
+                        <Label
+                            value="総人口"
+                            angle={-90}
+                            offset={20}
+                            position="left"
+                        />
+                    </YAxis>
                     <Tooltip />
-                    <Legend
-                        verticalAlign="top" height={36} />
+                    <Legend verticalAlign="top" height={36} />
                     {selectedProvince.map((value) => (
                         <Line
                             legendType="line"
                             key={value}
-
                             type="monotone"
                             dataKey={prefNamesAndIds[value - 1].prefName}
                             stroke={randomColor()}
                         />
                     ))}
-
                 </LineChart>
             </ResponsiveContainer>
         </div>
-    )
+    );
 }
 
 export default PopulationChart;

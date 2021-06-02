@@ -1,0 +1,9 @@
+html,
+body {
+    height: 100%;
+}
+.homepage {
+    margin: auto;
+    width: 80vw;
+    max-height: 50%;
+}
