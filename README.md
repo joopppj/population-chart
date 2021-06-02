@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# 都道府県別の総人口推移グラフ
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Demo URL
 
-In the project directory, you can run:
+[https://jap-population-chart.web.app](https://jap-population-chart.web.app)
 
 ### `npm start`
 

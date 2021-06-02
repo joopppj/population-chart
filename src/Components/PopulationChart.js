@@ -95,9 +95,14 @@ function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
                             value="年度"
                             offset={-10}
                             position="insideBottom"
-                        />{" "}
+                        />
                     </XAxis>
-                    <YAxis type="number" dx={5}>
+                    <YAxis
+                        type="number"
+                        dx={5}
+                        ticks={[
+                            0, 2000000, 5000000, 8000000, 11000000, 14000000,
+                        ]}>
                         <Label
                             value="総人口"
                             angle={-90}

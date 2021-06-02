@@ -18,7 +18,7 @@ class Homepage extends Component {
     }
 
     // fetch data(Japan prefectures names and code) right after the component mounts
-    componentDidMount() {
+    async componentDidMount() {
         const pointerToThis = this;
         const API_key = process.env.REACT_APP_API_KEY;
         let populationDataFunction = [];
