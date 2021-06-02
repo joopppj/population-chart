@@ -30,11 +30,9 @@ class Homepage extends Component {
         })
             .then((resp) => resp.json())
             .then(function (data) {
-                //console.log(data);
                 for (var result in data["result"]) {
                     populationDataFunction.push(data["result"][result]);
                 }
-                //console.log(populationDataFunction);
                 pointerToThis.setState({
                     prefNamesAndIds: populationDataFunction,
                 });
@@ -43,7 +41,7 @@ class Homepage extends Component {
                 console.log(error);
             });
 
-        // fetch all population data at the first place
+        // fetch all population data for all Japan prefectures into map state
         for (let i = 1; i <= 47; i++) {
             let prefDataFunction = [];
             fetch(
@@ -85,6 +83,7 @@ class Homepage extends Component {
         }
     }
 
+    //add/delete prefetures from selectedProvince when user click checkbox
     checkboxHandler(event) {
         if (event.target.checked) {
             this.setState({

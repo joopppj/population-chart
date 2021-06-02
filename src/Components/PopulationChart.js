@@ -69,7 +69,7 @@ function PopulationChart({ selectedProvince, map, prefNamesAndIds }) {
             name: "2020",
         },
     ];
-    // auto fill the chart data
+    // auto fill the chart data with population data
     for (let i = 2; i < 13; i++) {
         for (let prefCode of selectedProvince) {
             chartData[i - 2][`${prefNamesAndIds[prefCode - 1].prefName}`] =
