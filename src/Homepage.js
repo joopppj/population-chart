@@ -30,7 +30,7 @@ class Homepage extends Component {
         })
             .then((resp) => resp.json())
             .then(function (data) {
-                for (var result in data["result"]) {
+                for (let result in data["result"]) {
                     populationDataFunction.push(data["result"][result]);
                 }
                 pointerToThis.setState({
